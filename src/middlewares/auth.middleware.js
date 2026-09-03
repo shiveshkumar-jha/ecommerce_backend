@@ -9,7 +9,7 @@ const verifyjwt=async(req,res,next)=>{
         if(!token) throw new apierror(401,"unauthorized access")
         const decorded=jwt.verify(token,process.env.ACCESS_TOKEN_SECRET)
         const user=await User.findById(decorded._id).select("-password -refreshToken")
-        if(!user) throw new apierror(401,"invalid access token")
+        if(!user) throw new apierror(401,"unauthorized request")
         req.user=user /// now request contains user information and can be accessed in the next middleware or route handler
         next()
     } catch(err){

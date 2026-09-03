@@ -85,4 +85,87 @@ const getcurrentuser=asyncHandler(async(req,res)=>{
     return res.status(200).json(new apiresponse(200,user,"current user fetched successfully"))
 })
 
-export {registeruser, loginuser,logoutuser,getcurrentuser}
+const updateaccountdetails = asyncHandler(async (req, res) => {
+
+    const { fullname, email, phone } = req.body
+
+    if (!fullname && !email && !phone) {
+        throw new apierror(
+            400,
+            "At least one field is required"
+        )
+    }
+
+    const updateData = {};
+
+    if (fullname) {
+        updateData.fullname = fullname;
+    }
+
+    if (email) {
+        updateData.email = email.toLowerCase();
+    }
+
+    if (phone) {
+        updateData.phone = phone;
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $set: updateData
+        },
+        {
+            new: true,
+        }
+    ).select("-password -refreshtoken");
+
+    return res.status(200).json(
+        new apiresponse(
+            200,
+            user,
+            "Account details updated successfully"
+        )
+    )
+})
+
+const changepassword = asyncHandler(async (req, res) => {
+
+    const {
+        oldPassword,
+        newPassword
+    } = req.body
+
+    if (!oldPassword || !newPassword) {
+        throw new apierror(
+            400,
+            "Old password and new password are required"
+        )
+    }
+
+    const user = await User.findById(req.user._id);
+
+    const isOldPasswordCorrect =
+        await user.ispasswordcorrect(oldPassword);
+
+    if (!isOldPasswordCorrect) {
+        throw new apierror(
+            401,
+            "Old password is incorrect"
+        );
+    }
+
+    user.password = newPassword;
+
+    await user.save({validateBeforeSave: true})
+
+    return res.status(200).json(
+        new apiresponse(
+            200,
+            {},
+            "Password changed successfully"
+        )
+    )
+})
+
+export {registeruser, loginuser,logoutuser,getcurrentuser,updateaccountdetails,changepassword}
