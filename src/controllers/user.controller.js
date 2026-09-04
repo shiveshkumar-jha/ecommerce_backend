@@ -168,4 +168,58 @@ const changepassword = asyncHandler(async (req, res) => {
     )
 })
 
-export {registeruser, loginuser,logoutuser,getcurrentuser,updateaccountdetails,changepassword}
+const refreshaccesstoken = asyncHandler(async (req, res) => {
+    const { refreshtoken } = req.cookies;
+
+    if (!refreshtoken) {
+        throw new apierror(401, "Unauthorized request");
+    }
+
+    const user = await User.findOne({ refreshtoken });
+
+    if (!user) {
+        throw new apierror(401, "Invalid refresh token");
+    }
+
+    const accesstoken = user.generateaccesstoken();
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    };
+
+    return res.status(200)
+        .cookie("accesstoken", accesstoken, options)
+        .json(new apiresponse(200, { accesstoken }, "Access token refreshed successfully"));
+});
+
+          // ADMIN CONTROLLER FUNCTIONS //
+const getallusers=asyncHandler(async(req,res)=>{
+    const users=await User.find().select("-password -refreshtoken").sort({createdAt:-1})
+    return res.status(200).json(new apiresponse(200,users,"all users fetched successfully"))
+})
+
+const getuserbyid=asyncHandler(async(req,res)=>{
+    const {id}=req.params
+    const user=await User.findById(id).select("-password -refreshtoken")
+    if(!user) throw new apierror(404,"user not found")
+    return res.status(200).json(new apiresponse(200,user,"user fetched successfully"))
+}) 
+
+const deleteuser=asyncHandler(async(req,res)=>{
+    const {id}=req.params
+    const user=await User.findByIdAndDelete(id)
+    if(!user) throw new apierror(404,"user not found")
+    return res.status(200).json(new apiresponse(200,{},"user deleted successfully"))
+})
+
+const changeuserrole=asyncHandler(async(req,res)=>{
+    const {id}=req.params
+    const {role}=req.body
+    if(!role || !["admin","user"].includes(role)) throw new apierror(400,"valid role is required")
+    const user=await User.findByIdAndUpdate(id,{role:role},{new:true}).select("-password -refreshtoken")
+    if(!user) throw new apierror(404,"user not found")
+    return res.status(200).json(new apiresponse(200,user,"user role updated successfully"))
+})
+
+export {registeruser, loginuser,logoutuser,getcurrentuser,updateaccountdetails,changepassword,refreshaccesstoken,getallusers,getuserbyid,deleteuser,changeuserrole}

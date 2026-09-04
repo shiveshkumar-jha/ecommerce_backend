@@ -6,14 +6,14 @@ import {User} from '../models/user.models.js'
 const verifyjwt=async(req,res,next)=>{
     try{
         const token=req.cookies?.accesstoken
-        if(!token) throw new apierror(401,"unauthorized access")
+        if(!token) throw new apierror(401,"user is not authenticated")
         const decorded=jwt.verify(token,process.env.ACCESS_TOKEN_SECRET)
         const user=await User.findById(decorded._id).select("-password -refreshToken")
-        if(!user) throw new apierror(401,"unauthorized request")
+        if(!user) throw new apierror(401,"user is not authenticated")
         req.user=user /// now request contains user information and can be accessed in the next middleware or route handler
         next()
     } catch(err){
-        throw new apierror(401,"unauthorized access")
+        throw new apierror(401,"user is not authenticated")
     }
 }
 export {verifyjwt}
