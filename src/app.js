@@ -22,6 +22,9 @@ app.use((req, res, next) => {
 import userroutes from './routes/user.routes.js'
 app.use("/api/v1/users",userroutes)  // Mount the user routes at http://localhost:8000/api/v1/users
 
+import productroutes from './routes/product.routes.js'
+app.use("/api/v1/products",productroutes)  // Mount the product routes at http://localhost:8000/api/v1/products
+
 // Express global error handler
 app.use((err, req, res, next) => {
     console.log("ERROR OBJECT:", err);
