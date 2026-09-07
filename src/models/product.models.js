@@ -14,8 +14,9 @@ const productSchema = new Schema({
         required:true
     },
     category:{
-        type:String,
-        required:true
+        type:Schema.Types.ObjectId,
+        ref:"Category",
+        required:true // now this field is required, you need to provide a category id when creating a product(no need to give category name, just give the category id which you can get from the category collection)
     },
     image:{
         type:String,

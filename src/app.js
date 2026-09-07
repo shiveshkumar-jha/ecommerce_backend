@@ -25,6 +25,12 @@ app.use("/api/v1/users",userroutes)  // Mount the user routes at http://localhos
 import productroutes from './routes/product.routes.js'
 app.use("/api/v1/products",productroutes)  // Mount the product routes at http://localhost:8000/api/v1/products
 
+import categoryroutes from './routes/category.routes.js'
+app.use("/api/v1/categories",categoryroutes)  // Mount the category routes at http://localhost:8000/api/v1/categories
+
+import productsearchroutes from './routes/productsearch.routes.js'
+app.use("/api/v1/productsearch",productsearchroutes)  // Mount the product search routes at http://localhost:8000/api/v1/productsearch
+
 // Express global error handler
 app.use((err, req, res, next) => {
     console.log("ERROR OBJECT:", err);
