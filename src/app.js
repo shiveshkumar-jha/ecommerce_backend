@@ -31,6 +31,9 @@ app.use("/api/v1/categories",categoryroutes)  // Mount the category routes at ht
 import productsearchroutes from './routes/productsearch.routes.js'
 app.use("/api/v1/productsearch",productsearchroutes)  // Mount the product search routes at http://localhost:8000/api/v1/productsearch
 
+import cartroutes from './routes/cart.routes.js'
+app.use("/api/v1/cart",cartroutes) 
+
 // Express global error handler
 app.use((err, req, res, next) => {
     console.log("ERROR OBJECT:", err);

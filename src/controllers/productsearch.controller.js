@@ -7,7 +7,7 @@ const searchproduct=asyncHandler(async(req,res)=>{
     const {search,category,minprice,maxprice,sortby}=req.query
 
     const filter={
-        isActive:true  // only fetch active products  or default filter to fetch only active products
+        //isActive:true  // only fetch active products  or default filter to fetch only active products
     }
     //search by name
     if(search){
@@ -50,7 +50,7 @@ const searchproduct=asyncHandler(async(req,res)=>{
         else if(sortby==="oldest"){
             sort.createdAt=1
         }
-        else if(sortby===ratingsdec){
+        else if(sortby==="ratingsdec"){
             sort.rating=-1
         }
     }
