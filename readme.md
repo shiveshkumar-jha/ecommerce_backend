@@ -13,18 +13,16 @@ ecommerce backend
       ↓
 6. Cart
       ↓
-7. Wishlist
+7. Address
+      ↓ 
+8. Checkout
       ↓
-8. Address
+9. Orders + Stock Management
       ↓
-9. Checkout
+10. Payment (Razorpay)
       ↓
-10. Orders + Stock Management
+11. Reviews & Ratings
       ↓
-11. Payment (Razorpay)
+12. Coupons
       ↓
-12. Reviews & Ratings
-      ↓
-13. Coupons
-      ↓
-14. Admin Dashboard / Analytics
+13. Admin Dashboard / Analytics

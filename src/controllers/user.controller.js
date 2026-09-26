@@ -3,6 +3,7 @@ import {asyncHandler} from '../utils/asyncHandler.js'
 import {apiresponse} from '../utils/Apiresponse.js'
 import {apierror} from '../utils/Apierror.js'
 import cookie from 'cookie-parser'
+import { Address } from '../models/address.models.js'
 
 const registeruser=asyncHandler(async(req,res)=>{
     const{username,email,password,fullname,phone}=req.body
@@ -193,6 +194,55 @@ const refreshaccesstoken = asyncHandler(async (req, res) => {
         .json(new apiresponse(200, { accesstoken }, "Access token refreshed successfully"));
 });
 
+const addaddress = asyncHandler(async (req, res) => {
+
+    const {
+        fullname,
+        phone,
+        addressline,
+        city,
+        state,
+        pincode,
+        landmark,
+        addresstype,
+        isdefault
+    } = req.body;
+
+    if (
+        !fullname ||
+        !phone ||
+        !addressline ||
+        !city ||
+        !state ||
+        !pincode
+    ) {
+        throw new apierror(400, "Required address fields are missing");
+    }
+
+    const address = await Address.create({
+        user: req.user._id,
+        fullname,
+        phone,
+        addressline,
+        city,
+        state,
+        pincode,
+        landmark,
+        addresstype,
+        isdefault
+    });
+
+    return res
+        .status(201)
+        .json(
+            new apiresponse(
+                201,
+                address,
+                "Address added successfully"
+            )
+        );
+});
+
           // ADMIN CONTROLLER FUNCTIONS //
 const getallusers=asyncHandler(async(req,res)=>{
     const users=await User.find().select("-password -refreshtoken").sort({createdAt:-1})
@@ -222,4 +272,4 @@ const changeuserrole=asyncHandler(async(req,res)=>{
     return res.status(200).json(new apiresponse(200,user,"user role updated successfully"))
 })
 
-export {registeruser, loginuser,logoutuser,getcurrentuser,updateaccountdetails,changepassword,refreshaccesstoken,getallusers,getuserbyid,deleteuser,changeuserrole}
+export {registeruser, loginuser,logoutuser,getcurrentuser,updateaccountdetails,changepassword,refreshaccesstoken,getallusers,getuserbyid,deleteuser,changeuserrole,addaddress}

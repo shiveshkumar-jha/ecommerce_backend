@@ -42,18 +42,19 @@ const addtocart=asyncHandler(async(req,res)=>{
 })
 
 const getusercart=asyncHandler(async(req,res)=>{
-    const cart=await Cart.aggregate({
+    const cart=await Cart.findOne({
        user:req.user._id
     }).populate({  // aggreagetion pipeline can be used instead of populate but populate is much easier to implement
         path:"items.product",
-        select:"name,price,discount,finalprice,image,stock"
+        select:"name price discount finalPrice image stock"
     })
     if(!cart) return res.status(200,{},"cart is empty")
     return res.status(200).json(new apiresponse(200,cart,"cart fetched successfully"))
 })
 
 const updatequantityincart=asyncHandler(async(req,res)=>{
-    const{productid,quantity}=req.body
+    console.log("hii")
+    const {productid,quantity}=req.body
     if(!quantity || quantity<1) throw new apierror(400,"quantity cant be less than 1")
     if(!productid) throw new apierror(400,"productid is required")
     const product=await Product.findById(productid)
@@ -69,8 +70,8 @@ const updatequantityincart=asyncHandler(async(req,res)=>{
 })
 
 const removefromcart = asyncHandler(async (req, res) => {
-
     const { productid } = req.params;
+    if(!productid) throw new apierror(400,"productid is required")
 
     const cart = await Cart.findOne({
         user: req.user._id

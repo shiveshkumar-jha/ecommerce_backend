@@ -9,10 +9,10 @@ router.post("/addtocart",verifyjwt,addtocart)
 
 router.get("/getuserscart",verifyjwt,getusercart)
 
-router.patch("/updateqtyincart".verifyjwt,updatequantityincart)
+router.patch("/updateqtyincart",verifyjwt,updatequantityincart)
 
-router.delete("removeitemfromcart",verifyjwt,removefromcart)
+router.delete("/removeitemfromcart",verifyjwt,removefromcart)
 
 router.delete("/clearcart",verifyjwt,clearcart)
 
-export default router
+export default router 
