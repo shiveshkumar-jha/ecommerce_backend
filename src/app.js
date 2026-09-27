@@ -34,6 +34,9 @@ app.use("/api/v1/productsearch",productsearchroutes)  // Mount the product searc
 import cartroutes from './routes/cart.routes.js'
 app.use("/api/v1/cart",cartroutes) 
 
+import checkoutrouter from './routes/checkout.routes.js'
+app.use("/api/v1/checkout",checkoutrouter) 
+
 // Express global error handler
 app.use((err, req, res, next) => {
     console.log("ERROR OBJECT:", err);
