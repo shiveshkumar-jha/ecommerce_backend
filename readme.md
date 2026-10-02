@@ -19,9 +19,9 @@ ecommerce backend
       ↓
 9. Orders + Stock Management
       ↓
-10. Payment (Razorpay)
+10. Payment (cod & Razorpay)
       ↓
-11. Reviews & Ratings
+11. Reviews & Ratings 
       ↓
 12. Coupons
       ↓

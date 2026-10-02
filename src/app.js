@@ -32,10 +32,13 @@ import productsearchroutes from './routes/productsearch.routes.js'
 app.use("/api/v1/productsearch",productsearchroutes)  // Mount the product search routes at http://localhost:8000/api/v1/productsearch
 
 import cartroutes from './routes/cart.routes.js'
-app.use("/api/v1/cart",cartroutes) 
+app.use("/api/v1/cart",cartroutes)   
 
-import checkoutrouter from './routes/checkout.routes.js'
-app.use("/api/v1/checkout",checkoutrouter) 
+import checkoutroutes from './routes/checkout.routes.js'
+app.use("/api/v1/checkout",checkoutroutes) 
+
+import ordercodroutes from './routes/order_cod.routes.js'
+app.use("/api/v1/orders",ordercodroutes)
 
 // Express global error handler
 app.use((err, req, res, next) => {
