@@ -40,6 +40,12 @@ app.use("/api/v1/checkout",checkoutroutes)
 import ordercodroutes from './routes/order_cod.routes.js'
 app.use("/api/v1/orders",ordercodroutes)
 
+import reviewroutes from './routes/review.routes.js'
+app.use("/api/v1/reviews",reviewroutes)
+
+import adminroutes from './routes/admin_leaderboard.routes.js'
+app.use("/api/v1/admin",adminroutes)
+
 // Express global error handler
 app.use((err, req, res, next) => {
     console.log("ERROR OBJECT:", err);
